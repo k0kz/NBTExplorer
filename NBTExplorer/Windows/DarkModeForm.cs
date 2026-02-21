@@ -84,6 +84,28 @@ namespace NBTExplorer.Windows.Themes
 
         public static bool darkMode { get; set; } = false;
 
+        public static Image InvertIconColors(Bitmap bmp)
+        {
+            Bitmap invertedBmp = new Bitmap(bmp);
+            for (int x = 0; x < invertedBmp.Width; x++)
+            {
+                for (int y = 0; y < invertedBmp.Height; y++)
+                {
+                    // pc - pixel color
+                    Color pc = invertedBmp.GetPixel(x, y);
+                    const int maxRgbVal = 255;
+                    pc = Color.FromArgb(pc.A,
+                        (~pc.R + maxRgbVal) % maxRgbVal,
+                        (~pc.G + maxRgbVal) % maxRgbVal,
+                        (~pc.B + maxRgbVal) % maxRgbVal);
+                    invertedBmp.SetPixel(x, y, pc);
+
+                }
+            }
+            return invertedBmp as Image;
+        }
+
+        public static Image InvertIconColors(Image im) => InvertIconColors(im as Bitmap);
     }
 
     public class DarkModeForm : Form
