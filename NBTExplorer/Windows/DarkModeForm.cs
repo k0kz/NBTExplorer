@@ -45,7 +45,6 @@ namespace NBTExplorer.Windows.Themes
         public override Color ToolStripGradientMiddle => BackgroundDark;
         public override Color ToolStripGradientEnd => BackgroundDark;
         public override Color ToolStripBorder => BackgroundDark;
-
     }
 
     public class DarkModeRenderer : ToolStripProfessionalRenderer
@@ -204,12 +203,17 @@ namespace NBTExplorer.Windows.Themes
                             btn.ForeColor = Themes.DarkMenuStripColorTable.TextWhite;
                             btn.FlatAppearance.BorderColor = Themes.DarkMenuStripColorTable.BorderDark;
                             break;
+                        case WatermarkTextBox wtxt:
+                            wtxt.BackColor = Themes.DarkMenuStripColorTable.BackgroundLight;
+                            wtxt.TextColor = Themes.DarkMenuStripColorTable.TextWhite;
+                            wtxt.BorderStyle = BorderStyle.FixedSingle;
+                            break;
                         case TextBox txt:
-                            // Odpowiedni kontrast dla pola tekstowego
-                            txt.BackColor = Themes.DarkMenuStripColorTable.BackgroundLight;
+                            txt.BackColor = Themes.DarkMenuStripColorTable.BackgroundDark;
                             txt.ForeColor = Themes.DarkMenuStripColorTable.TextWhite;
                             txt.BorderStyle = BorderStyle.FixedSingle;
                             break;
+
                         default:
                             c.BackColor = Themes.DarkMenuStripColorTable.BackgroundDark;
                             c.ForeColor = Themes.DarkMenuStripColorTable.TextWhite;
@@ -243,6 +247,16 @@ namespace NBTExplorer.Windows.Themes
                             break;
                         case ToolStripContentPanel tscp:
                             tscp.Renderer = new ToolStripProfessionalRenderer();
+                            break;
+                        case WatermarkTextBox wtxt:
+                            wtxt.BackColor = DefaultBackColor;
+                            wtxt.TextColor = DefaultForeColor;
+                            break;
+                        case TextBox txt:
+                            // Contrast for text field
+                            txt.BackColor = DefaultBackColor;
+                            txt.ForeColor = DefaultForeColor;
+                            txt.BorderStyle = BorderStyle.FixedSingle;
                             break;
                         default:
                             c.BackColor = Control.DefaultBackColor;

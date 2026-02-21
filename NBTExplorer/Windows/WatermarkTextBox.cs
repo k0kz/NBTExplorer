@@ -8,6 +8,10 @@ namespace NBTExplorer.Windows
 {
     class WatermarkTextBox : TextBox
     {
+
+        public Color TextColor = Color.Black;
+        public Color TextPlaceholderColor = Color.Gray;
+
         public WatermarkTextBox ()
         {
             WatermarkText = "Type here";
@@ -34,7 +38,7 @@ namespace NBTExplorer.Windows
             if (this.WatermarkActive) {
                 this.WatermarkActive = false;
                 this.Text = "";
-                this.ForeColor = Color.Black;
+                this.ForeColor = TextColor;
             }
         }
 
@@ -43,7 +47,7 @@ namespace NBTExplorer.Windows
             if (!this.WatermarkActive && string.IsNullOrEmpty(this.Text) || ForeColor == Color.Gray) {
                 this.WatermarkActive = true;
                 this.Text = WatermarkText;
-                this.ForeColor = Color.Gray;
+                this.ForeColor = TextPlaceholderColor;
             }
         }
 
