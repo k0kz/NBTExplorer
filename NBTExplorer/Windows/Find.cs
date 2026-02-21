@@ -6,10 +6,10 @@ namespace NBTExplorer.Windows
 {
     public partial class Find : DarkModeForm
     {
-        public Find ()
+        public Find () : base ()
         {
             InitializeComponent();
-         
+
             DrawDarkMode();
         }
 

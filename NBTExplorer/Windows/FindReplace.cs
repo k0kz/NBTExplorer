@@ -25,6 +25,8 @@ namespace NBTExplorer.Windows
 
         private ExplorerBarController _explorerManager;
 
+
+
         public FindReplace (MainForm main, NodeTreeController controller, DataNode searchRoot) : base()
         {
             // for dark mode
@@ -72,6 +74,14 @@ namespace NBTExplorer.Windows
             _explorerStrip,
             };
             themableControls.AddRange(ctrls);
+
+
+            buttonstoSwapIconsOf = new List<ToolStripButton> {
+            _tbFindGroupAnd, _tbFindGroupOr, _tbFindAny, _tbFindString,
+            _tbReplaceByteArray, _tbReplaceIntArray, _tbReplaceLongArray, _tbReplaceString, _tbReplaceList
+            };
+
+            GenerateDarkModeIcons();
             DrawDarkMode();
         }
 

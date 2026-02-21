@@ -17,8 +17,6 @@ namespace NBTExplorer.Windows
 
             int adj = linkLabel1.Text.Length - len;
             linkLabel1.LinkArea = new LinkArea(linkLabel1.LinkArea.Start + adj, linkLabel1.LinkArea.Length);
-
-            DrawDarkMode();
         }
 
         private void linkLabel1_LinkClicked (object sender, LinkLabelLinkClickedEventArgs e)

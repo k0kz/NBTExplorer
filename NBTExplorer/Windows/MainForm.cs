@@ -64,6 +64,16 @@ namespace NBTExplorer.Windows
             InitializeComponent();
             InitializeIconRegistry();
 
+            buttonstoSwapIconsOf = new List<ToolStripButton>
+            {
+                _buttonRename,
+                _buttonAddTagByteArray,
+                _buttonAddTagIntArray,
+                _buttonAddTagLongArray,
+                _buttonAddTagString,
+                _buttonAddTagList,
+            };
+
             //FileStream logFileStream = File.Open("logfile.txt", FileMode.OpenOrCreate);
 
             FormHandlers.Register();
@@ -132,7 +142,10 @@ namespace NBTExplorer.Windows
                 OpenMinecraftDirectory();
             }
 
+
             UpdateOpenMenu();
+
+            //GenerateDarkModeIcons();
             DrawDarkMode();
         }
 
