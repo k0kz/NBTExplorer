@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using NBTExplorer.Windows.Themes;
 using Substrate.Nbt;
 
 namespace NBTExplorer.Windows
 {
-    public partial class CreateNodeForm : Form
+    public partial class CreateNodeForm : DarkModeForm
     {
         private string _name;
         private int _size;
@@ -23,6 +24,8 @@ namespace NBTExplorer.Windows
         public CreateNodeForm (TagType tagType, bool hasName)
         {
             InitializeComponent();
+            
+            DrawDarkMode();
 
             _type = tagType;
             _hasName = hasName;

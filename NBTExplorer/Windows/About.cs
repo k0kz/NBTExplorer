@@ -1,11 +1,13 @@
-﻿using System.Windows.Forms;
+﻿using NBTExplorer.Windows.Themes;
+using System.Windows.Forms;
 
 namespace NBTExplorer.Windows
 {
-    public partial class About : Form
+    public partial class About : DarkModeForm
     {
-        public About ()
+        public About () : base ()
         {
+            //ControlAdded += OnControlAdded;
             InitializeComponent();
 
             int len = linkLabel1.Text.Length;
@@ -15,6 +17,8 @@ namespace NBTExplorer.Windows
 
             int adj = linkLabel1.Text.Length - len;
             linkLabel1.LinkArea = new LinkArea(linkLabel1.LinkArea.Start + adj, linkLabel1.LinkArea.Length);
+
+            DrawDarkMode();
         }
 
         private void linkLabel1_LinkClicked (object sender, LinkLabelLinkClickedEventArgs e)

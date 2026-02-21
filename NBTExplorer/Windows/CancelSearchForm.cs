@@ -1,12 +1,15 @@
-﻿using System.Windows.Forms;
+﻿using NBTExplorer.Windows.Themes;
+using System.Windows.Forms;
 
 namespace NBTExplorer.Windows
 {
-    public partial class CancelSearchForm : Form
+    public partial class CancelSearchForm : DarkModeForm
     {
         public CancelSearchForm ()
         {
             InitializeComponent();
+            DrawDarkMode();
+
         }
 
         public string SearchPathLabel

@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Drawing;
+using NBTExplorer.Windows.Themes;
 
 namespace NBTExplorer.Windows
 {
-    public partial class HexEditor : Form
+    public partial class HexEditor : DarkModeForm
     {
         private abstract class EditView
         {
@@ -299,6 +300,8 @@ namespace NBTExplorer.Windows
         public HexEditor (string tagName, byte[] data, int bytesPerElem)
         {
             InitializeComponent();
+
+            DrawDarkMode();
 
             EditView textView = new TextView(statusStrip1, bytesPerElem);
             textView.Initialize();

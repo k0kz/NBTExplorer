@@ -1,10 +1,11 @@
-﻿using System;
+﻿using NBTExplorer.Windows.Themes;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace NBTExplorer.Windows
 {
-    public partial class EditName : Form
+    public partial class EditName : DarkModeForm
     {
         private string _originalName;
         private string _name;
@@ -14,6 +15,8 @@ namespace NBTExplorer.Windows
         public EditName (String name)
         {
             InitializeComponent();
+
+            DrawDarkMode();
 
             _originalName = name;
             _name = name;

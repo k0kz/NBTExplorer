@@ -6,10 +6,11 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using NBTExplorer.Model.Search;
+using NBTExplorer.Windows.Themes;
 
 namespace NBTExplorer.Windows.Search
 {
-    public partial class WildcardRuleForm : Form
+    public partial class WildcardRuleForm : DarkModeForm
     {
         public WildcardRuleForm (Dictionary<WildcardOperator, string> operators)
         {
@@ -19,6 +20,10 @@ namespace NBTExplorer.Windows.Search
                 _selectOperator.Items.Add(op.Key);
 
             _selectOperator.SelectedIndex = 0;
+
+            themableControls.AddRange(new List<Control>() { _buttonCancel, _buttonOK, _selectOperator, _ruleGroup, label1, label2, _textName, _textValue});
+
+            DrawDarkMode();
         }
 
         public string RuleGroupName

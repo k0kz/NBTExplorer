@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Windows.Forms;
+using NBTExplorer.Windows.Themes;
 using Substrate.Nbt;
 
 namespace NBTExplorer.Windows
 {
-    public partial class EditValue : Form
+    public partial class EditValue : DarkModeForm
     {
         private TagNode _tag;
 
         public EditValue (TagNode tag)
         {
             InitializeComponent();
+
+            DrawDarkMode();
 
             _tag = tag;
 

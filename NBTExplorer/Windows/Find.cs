@@ -1,13 +1,16 @@
-﻿using System;
+﻿using NBTExplorer.Windows.Themes;
+using System;
 using System.Windows.Forms;
 
 namespace NBTExplorer.Windows
 {
-    public partial class Find : Form
+    public partial class Find : DarkModeForm
     {
         public Find ()
         {
             InitializeComponent();
+         
+            DrawDarkMode();
         }
 
         public bool MatchName

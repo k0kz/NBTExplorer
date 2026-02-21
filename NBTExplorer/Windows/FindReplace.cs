@@ -10,10 +10,11 @@ using Substrate.Nbt;
 using NBTExplorer.Model;
 using System.Threading;
 using NBTExplorer.Model.Search;
+using NBTExplorer.Windows.Themes;
 
 namespace NBTExplorer.Windows
 {
-    public partial class FindReplace : Form
+    public partial class FindReplace : DarkModeForm
     {
         private MainForm _main;
         private NodeTreeController _mainController;
@@ -24,8 +25,13 @@ namespace NBTExplorer.Windows
 
         private ExplorerBarController _explorerManager;
 
-        public FindReplace (MainForm main, NodeTreeController controller, DataNode searchRoot)
+        public FindReplace (MainForm main, NodeTreeController controller, DataNode searchRoot) : base()
         {
+            // for dark mode
+            //ControlAdded += OnControlAdded;
+
+            ControlAdded += OnControlAdded;
+
             InitializeComponent();
 
             _main = main;
@@ -54,6 +60,19 @@ namespace NBTExplorer.Windows
                 _mainSearchRoot = _explorerManager.SearchRoot;
                 Reset();
             };
+
+
+            // Usually placeed right after InitializeComponent() but
+            // this time there is explorer manager and some fuckery
+            // (which I do have the time but the desire to investigate)
+            // in the manager changes color sceheme on the toolstrip
+            List<Control> ctrls = new List<Control>{ groupBox1, groupBox2,
+            toolStrip1, toolStrip2,
+            treeView1, treeView2,
+            _explorerStrip,
+            };
+            themableControls.AddRange(ctrls);
+            DrawDarkMode();
         }
 
         #region Find Toolbar Buttons

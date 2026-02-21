@@ -6,10 +6,11 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using NBTExplorer.Model;
+using NBTExplorer.Windows.Themes;
 
 namespace NBTExplorer.Windows
 {
-    public partial class FindBlock : Form
+    public partial class FindBlock : DarkModeForm
     {
         private class CoordinateGroup
         {
@@ -37,6 +38,9 @@ namespace NBTExplorer.Windows
         public FindBlock (DataNode searchRoot)
         {
             InitializeComponent();
+
+            themableControls.AddRange(new List<Control> { _cancelButton, _findButton, groupBox1, groupBox2, groupBox3, groupBox4, groupBox5, label10, label1, label2, label3, label4, label5, label6, label7, label8, label9, tableLayoutPanel1, _blockXTextBox, _blockZTextBox, _chunkXTextBox, _chunkZTextBox, _localBlockXTextBox, _localBlockZTextBox, _localChunkXTextBox, _localChunkZTextBox, _regionXTextBox, _regionZTextBox});
+            DrawDarkMode();
 
             _searchRoot = searchRoot;
 
