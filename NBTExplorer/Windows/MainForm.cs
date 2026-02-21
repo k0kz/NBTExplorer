@@ -14,8 +14,14 @@ namespace NBTExplorer.Windows
 {
     using Predicates = NodeTreeController.Predicates;
     using NBTModel.Interop;
+    using System.Runtime.CompilerServices;
+    using System.Drawing;
+    using NBTExplorer.Vendor.MultiSelectTreeView;
+    using System.Text;
+    using NBTExplorer.Windows.Themes;
+    using System.Drawing.Drawing2D;
 
-    public partial class MainForm : Form
+    public partial class MainForm : DarkModeForm
     {
         private static Dictionary<TagType, int> _tagIconIndex;
 
@@ -47,10 +53,19 @@ namespace NBTExplorer.Windows
             }
         }
 
-        public MainForm ()
+        public MainForm () : base ()
         {
+            // for dark mode
+            //ControlAdded += OnControlAdded;
+            //darkModeRenderer.RenderItemText += DarkModeRendererHelpers.OnRenderItemText;
+            //ToolStripManager.Renderer = darkModeRenderer;
+            //darkModeRenderer.RenderItemText += DarkModeRendererHelper.OnRenderItemText;
+
             InitializeComponent();
             InitializeIconRegistry();
+
+            //FileStream logFileStream = File.Open("logfile.txt", FileMode.OpenOrCreate);
+
             FormHandlers.Register();
             NbtClipboardController.Initialize(new NbtClipboardControllerWin());
 
@@ -118,6 +133,7 @@ namespace NBTExplorer.Windows
             }
 
             UpdateOpenMenu();
+            DrawDarkMode();
         }
 
         void _menuItemOpenInExplorer_Click(object sender, EventArgs e)
@@ -557,7 +573,6 @@ namespace NBTExplorer.Windows
                     Settings.Default.RecentFiles = new StringCollection();
             }
             catch {
-                return;
             }
 
             _menuItemRecentFolders.DropDown = BuildRecentEntriesDropDown(Settings.Default.RecentDirectories);
@@ -908,5 +923,10 @@ namespace NBTExplorer.Windows
         #endregion
 
         #endregion
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            ToggleDarkMode();
+        }
     }
 }
