@@ -93,7 +93,7 @@ namespace NBTExplorer.Windows.Themes
                 {
                     // pc - pixel color
                     Color pc = invertedBmp.GetPixel(x, y);
-                    const int maxRgbVal = 255;
+                    const int maxRgbVal = 256;
                     pc = Color.FromArgb(pc.A,
                         (~pc.R + maxRgbVal) % maxRgbVal,
                         (~pc.G + maxRgbVal) % maxRgbVal,
@@ -113,8 +113,13 @@ namespace NBTExplorer.Windows.Themes
         public DarkModeForm()
         {
             ControlAdded += OnControlAdded;
+
             DrawDarkMode();
         }
+
+        protected List<ToolStripButton> buttonstoSwapIconsOf;
+        protected Dictionary<String, Image> lightModeIcons = new Dictionary<String, Image>();
+        protected Dictionary<String, Image> darkModeIcons = new Dictionary<String, Image>();
 
 
         protected List<Control> themableControls = new List<Control>();
@@ -130,11 +135,33 @@ namespace NBTExplorer.Windows.Themes
         protected void ToggleDarkMode()
         {
             DarkModeRendererHelper.darkMode = !DarkModeRendererHelper.darkMode;
+            if(darkModeIcons == null || darkModeIcons.Count == 0
+                || lightModeIcons == null || lightModeIcons.Count == 0) GenerateDarkModeIcons();
+
             DrawDarkMode();
         }
 
-        protected void DrawDarkMode()
+        protected virtual void GenerateDarkModeIcons()
         {
+            // No buttons to invert colors of, bail out early
+            if (buttonstoSwapIconsOf == null || buttonstoSwapIconsOf.Count == 0) return;
+
+            if(darkModeIcons == null) darkModeIcons = new Dictionary<String, Image>();
+            if(lightModeIcons == null) lightModeIcons = new Dictionary<String, Image>();
+
+            foreach (var button in buttonstoSwapIconsOf)
+            {
+                lightModeIcons[button.Name] = button.Image;
+
+                String iconKey = button.Name;
+                Image replacement = DarkModeRendererHelper.InvertIconColors(button.Image);
+                darkModeIcons[iconKey] = replacement;
+            }
+        }
+
+        protected virtual void DrawDarkMode()
+        {
+            //if (darkModeIcons.Count == 0) GenerateDarkModeIcons();
 
             if (DarkModeRendererHelper.darkMode)
             {
@@ -142,6 +169,15 @@ namespace NBTExplorer.Windows.Themes
                 {
                     this.BackColor = DarkMenuStripColorTable.BackgroundDark;
                     this.ForeColor = DarkMenuStripColorTable.TextWhite;
+                }
+
+                if (darkModeIcons != null && darkModeIcons.Count > 0
+                    && buttonstoSwapIconsOf != null)
+                {
+                    foreach (var button in buttonstoSwapIconsOf)
+                    {
+                        button.Image = darkModeIcons[button.Name];
+                    }
                 }
 
                 foreach (Control c in themableControls)
@@ -183,6 +219,15 @@ namespace NBTExplorer.Windows.Themes
             }
             else
             {
+                if (lightModeIcons != null && lightModeIcons.Count > 0
+                    && buttonstoSwapIconsOf != null)
+                {
+                    foreach (var button in buttonstoSwapIconsOf)
+                    {
+                        button.Image = lightModeIcons[button.Name];
+                    }
+                }
+
                 foreach (Control c in themableControls)
                 {
                     switch (c)
