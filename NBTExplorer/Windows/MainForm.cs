@@ -30,6 +30,7 @@ namespace NBTExplorer.Windows
 
         private string _openFolderPath = null;
 
+
         static MainForm ()
         {
             try {
@@ -886,7 +887,7 @@ namespace NBTExplorer.Windows
 
         private void _menuItemAbout_Click (object sender, EventArgs e)
         {
-            new About().ShowDialog();
+            new About().Show();
         }
 
         private void _menuItemRecentPaths_Click (object sender, EventArgs e)
@@ -939,7 +940,31 @@ namespace NBTExplorer.Windows
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            //DarkModeRendererHelper.invertColorsImageList(ref imageList1);
+
             ToggleDarkMode();
         }
+
+        public override void ToggleDarkMode()
+        {
+            List<String> keysToReplace = new List<String> { "edit-code.png",
+                     "edit-small-caps.png",
+                     "edit-list.png",
+                     "edit-code-i.png",
+                     "edit-code-s.png",
+                     "edit-code-l.png"
+            };
+
+            foreach (String key in keysToReplace)
+            {
+                int index = imageList1.Images.IndexOfKey(key);
+                Bitmap newImage = (Bitmap)DarkModeRendererHelper.InvertIconColors(imageList1.Images[key]);
+                imageList1.Images[index] = newImage;
+            }
+
+
+            base.ToggleDarkMode();
+        }
+
     }
 }
