@@ -297,7 +297,7 @@ namespace NBTExplorer.Windows
 
         private Dictionary<TabPage, EditView> _views = new Dictionary<TabPage, EditView>();
 
-        public HexEditor (string tagName, byte[] data, int bytesPerElem)
+        public HexEditor (string tagName, byte[] data, int bytesPerElem) : base()
         {
             InitializeComponent();
 

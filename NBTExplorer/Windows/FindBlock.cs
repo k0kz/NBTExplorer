@@ -35,7 +35,7 @@ namespace NBTExplorer.Windows
         private DataNode _searchRoot;
         private DataNode _searchResult;
 
-        public FindBlock (DataNode searchRoot)
+        public FindBlock (DataNode searchRoot) : base()
         {
             InitializeComponent();
 

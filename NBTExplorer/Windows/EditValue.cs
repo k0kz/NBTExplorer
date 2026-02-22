@@ -9,7 +9,7 @@ namespace NBTExplorer.Windows
     {
         private TagNode _tag;
 
-        public EditValue (TagNode tag)
+        public EditValue (TagNode tag) : base ()
         {
             InitializeComponent();
 

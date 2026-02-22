@@ -12,7 +12,7 @@ namespace NBTExplorer.Windows
 
         private List<string> _invalidNames = new List<string>();
 
-        public EditName (String name)
+        public EditName (String name) : base()
         {
             InitializeComponent();
 

@@ -21,7 +21,7 @@ namespace NBTExplorer.Windows
             : this(tagType, true)
         { }
 
-        public CreateNodeForm (TagType tagType, bool hasName)
+        public CreateNodeForm (TagType tagType, bool hasName) : base()
         {
             InitializeComponent();
             

@@ -8,7 +8,7 @@ namespace NBTExplorer.Windows
     {
         private string _string;
 
-        public EditString (string stringVal)
+        public EditString (string stringVal) : base()
         {
             InitializeComponent();
 

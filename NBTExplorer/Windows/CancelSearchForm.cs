@@ -5,7 +5,7 @@ namespace NBTExplorer.Windows
 {
     public partial class CancelSearchForm : DarkModeForm
     {
-        public CancelSearchForm ()
+        public CancelSearchForm() : base()
         {
             InitializeComponent();
             DrawDarkMode();
