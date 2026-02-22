@@ -96,7 +96,9 @@ namespace NBTExplorer.Windows
                      "edit-list.png",
                      "edit-code-i.png",
                      "edit-code-s.png",
-                     "edit-code-l.png"
+                     "edit-code-l.png",
+                     "sql-join-inner.png",
+                     "sql-join-outer.png",
             };
 
             if(imageList1 != null)

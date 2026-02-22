@@ -112,7 +112,6 @@
       <DependentUpon>CancelSearchForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\DarkModeForm.cs" />
-    <Compile Include="Windows\DarkModeFormsManager.cs" />
     <Compile Include="Windows\FindBlock.cs">
       <SubType>Form</SubType>
     </Compile>
