@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -54,7 +55,7 @@ namespace NBTExplorer.Windows.Themes
         protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
         {
             // Wymuszamy nasz kolor tuż przed faktycznym rysowaniem
-            e.TextColor = DarkMenuStripColorTable.TextWhite;
+            e.TextColor = DarkModeRendererHelper.bDarkMode ? DarkMenuStripColorTable.TextWhite : default;
             base.OnRenderItemText(e);
         }
     }
@@ -81,7 +82,18 @@ namespace NBTExplorer.Windows.Themes
             e.TextColor = Color.Transparent;
         }
 
-        public static bool darkMode { get; set; } = false;
+        public static bool bDarkMode { get => _bDarkMode; set => OnSetDarkMode(value); }
+        private static bool _bDarkMode = false;
+        private static void OnSetDarkMode(bool darkMode)
+        {
+            _bDarkMode = darkMode;
+            foreach (DarkModeForm f in openedForms)
+            {
+                f.DrawDarkMode();
+            }
+        }
+
+        public static List<Form> openedForms = new List<Form>();
 
         public static Image InvertIconColors(Bitmap bmp)
         {
@@ -105,6 +117,7 @@ namespace NBTExplorer.Windows.Themes
         }
 
         public static Image InvertIconColors(Image im) => InvertIconColors(im as Bitmap);
+
     }
 
     public class DarkModeForm : Form
@@ -112,6 +125,10 @@ namespace NBTExplorer.Windows.Themes
         public DarkModeForm()
         {
             ControlAdded += OnControlAdded;
+            DarkModeRendererHelper.openedForms.Add(this);
+            this.FormClosed += 
+                (object sender, FormClosedEventArgs args) =>
+                { DarkModeRendererHelper.openedForms.Remove(this); };
 
             DrawDarkMode();
         }
@@ -131,9 +148,9 @@ namespace NBTExplorer.Windows.Themes
             }
         }
 
-        protected void ToggleDarkMode()
+        public virtual void ToggleDarkMode()
         {
-            DarkModeRendererHelper.darkMode = !DarkModeRendererHelper.darkMode;
+            DarkModeRendererHelper.bDarkMode ^= true;
             if(darkModeIcons == null || darkModeIcons.Count == 0
                 || lightModeIcons == null || lightModeIcons.Count == 0) GenerateDarkModeIcons();
 
@@ -158,11 +175,11 @@ namespace NBTExplorer.Windows.Themes
             }
         }
 
-        protected virtual void DrawDarkMode()
+        public virtual void DrawDarkMode()
         {
             //if (darkModeIcons.Count == 0) GenerateDarkModeIcons();
 
-            if (DarkModeRendererHelper.darkMode)
+            if (DarkModeRendererHelper.bDarkMode)
             {
                 if ((this.Tag as String) != "ExcludedFromThemes")
                 {
@@ -179,12 +196,24 @@ namespace NBTExplorer.Windows.Themes
                     }
                 }
 
+                ToolStripManager.Renderer = DarkModeRendererHelper.darkModeRenderer;
+
+                // Despite assigning the renderer to manager,
+                // this loop needs to stay or the UI colors go haywire
+                // I could fix this but I am too frustrated to at this point
+                // due to dealing with all of the .NET Framework 2.0's
+                // unconvenices compared to modern .NET versions.
+                //
+                // To any poor soul reading this comment: please be fucking
+                // glad new environemnts have these QOL improvements.
                 foreach (Control c in themableControls)
                 {
                     switch (c)
                     {
                         case ContextMenuStrip cms:
                             cms.Renderer = Themes.DarkModeRendererHelper.darkModeRenderer;
+                            cms.BackColor = DarkMenuStripColorTable.BackgroundLight;
+                            cms.ForeColor = DarkMenuStripColorTable.TextWhite;
                             break;
                         case ToolStrip ts:
                             ts.Renderer = Themes.DarkModeRendererHelper.darkModeRenderer;
@@ -220,6 +249,9 @@ namespace NBTExplorer.Windows.Themes
                             break;
                     }
                 }
+
+                this.BackColor = DarkMenuStripColorTable.BackgroundDark;
+                this.ForeColor = DarkMenuStripColorTable.TextWhite;
             }
             else
             {
@@ -232,21 +264,23 @@ namespace NBTExplorer.Windows.Themes
                     }
                 }
 
+                ToolStripManager.Renderer = default;
+
                 foreach (Control c in themableControls)
                 {
                     switch (c)
                     {
                         case ContextMenuStrip cms:
-                            cms.Renderer = new ToolStripProfessionalRenderer();
+                            cms.Renderer = default;
                             break;
                         case ToolStrip ts:
-                            ts.Renderer = new ToolStripProfessionalRenderer();
+                            ts.Renderer = default;
                             break;
                         case ToolStripPanel tsp:
-                            tsp.Renderer = new ToolStripProfessionalRenderer();
+                            tsp.Renderer = default;
                             break;
                         case ToolStripContentPanel tscp:
-                            tscp.Renderer = new ToolStripProfessionalRenderer();
+                            tscp.Renderer = default;
                             break;
                         case WatermarkTextBox wtxt:
                             wtxt.BackColor = DefaultBackColor;
@@ -259,13 +293,14 @@ namespace NBTExplorer.Windows.Themes
                             txt.BorderStyle = BorderStyle.FixedSingle;
                             break;
                         default:
-                            c.BackColor = Control.DefaultBackColor;
-                            c.ForeColor = Control.DefaultForeColor;
+                            c.BackColor = DefaultBackColor;
+                            c.ForeColor = DefaultForeColor;
                             break;
                     }
                 }
-
+                this.BackColor = default;
+                this.ForeColor = default;
             }
         }
     }
-}
+}       
