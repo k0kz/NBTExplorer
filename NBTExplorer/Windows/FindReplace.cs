@@ -82,8 +82,36 @@ namespace NBTExplorer.Windows
             };
 
             GenerateDarkModeIcons();
-            DrawDarkMode();
+
+            if(DarkModeRendererHelper.bDarkMode) DrawDarkMode();
         }
+
+        public override void DrawDarkMode()
+        {
+
+            base.DrawDarkMode();
+
+            List<String> keysToReplace = new List<String> { "edit-code.png",
+                     "edit-small-caps.png",
+                     "edit-list.png",
+                     "edit-code-i.png",
+                     "edit-code-s.png",
+                     "edit-code-l.png"
+            };
+
+            if(imageList1 != null)
+            foreach (String key in keysToReplace)
+            {
+                if (!(imageList1.Images.ContainsKey(key)))
+                    continue;
+                int index = imageList1.Images.IndexOfKey(key);
+                Bitmap newImage = (Bitmap)DarkModeRendererHelper.InvertIconColors(imageList1.Images[key]);
+                imageList1.Images[index] = newImage;
+            }
+
+
+        }
+
 
         #region Find Toolbar Buttons
 
